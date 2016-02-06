@@ -1,4 +1,4 @@
-var Morse = function(tempCont, decryptedCont, poseCont){
+var Morse = function(tempCont, decryptedCont, poseCont, socket){
 	var $temp = $(tempCont);
 	var $decrypted = $(decryptedCont);
 	var $pose = $(poseCont);
@@ -103,6 +103,7 @@ var Morse = function(tempCont, decryptedCont, poseCont){
 
 	object.updateTemp = function(){
 		$temp.html(temp);
+		socket.emit('decrypted', temp);
 	};
 
 	object.updateDecrypt = function(){
