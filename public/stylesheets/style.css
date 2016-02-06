@@ -1,8 +1,30 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	color: #fff;
+	background  : #10161d url('../images/dot_grid.png');
+	font-family: "Montserrat", sans-serif;
+	font-size: 14px;
 }
 
 a {
-  color: #00B7FF;
+	color: #00B7FF;
+}
+
+
+#more {
+	font-size: 10em;
+}
+
+#options {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+
+#pose{
+	position: absolute;
+	bottom: 0;
+	width : 100px;
+	margin: 1em;
+	right: 0;
 }

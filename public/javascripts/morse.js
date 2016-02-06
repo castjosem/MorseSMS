@@ -1,4 +1,8 @@
-var myo = function(){
+var Morse = function(tempCont, decryptedCont, poseCont){
+	var $temp = $(tempCont);
+	var $decrypted = $(decryptedCont);
+	var $pose = $(poseCont);
+
 	var object = {};
 	var temp = "";
 	var decrypted = "";
@@ -40,11 +44,11 @@ var myo = function(){
 		});
 		Myo.on('fingers_spread', function(){
 			temp = temp + "-";
-			console.log(temp);
+			object.updateTemp();
 		});
 		Myo.on('fist', function(){
 			temp = temp + ".";
-			console.log(temp);
+			object.updateTemp();
 		});
 		Myo.on('wave_in', function(){
 			console.log("wave");
@@ -53,11 +57,45 @@ var myo = function(){
 					decrypted = decrypted + key;				
 			}
 			temp = "";
-			console.log(decrypted);
+			object.updateTemp();
 		});
 		Myo.on('wave_out', function(){
 			console.log("wave_out");
 		});
+
+		Myo.on('pose', function(pose){
+			switch(pose){
+				case 'wave_out':
+				case 'wave_in':
+				case 'fist':
+				case 'fingers_spread':
+					$pose.attr('src', 'images/' + pose + '_active.png');
+					break;
+				default:
+					break;
+			}
+		})
+
+		Myo.on('pose_off', function(pose){
+			switch(pose){
+				case 'wave_out':
+				case 'wave_in':
+				case 'fist':
+				case 'fingers_spread':
+					$pose.attr('src', 'images/' + pose + '_active.png');
+					break;
+				default:
+					break;
+			}
+		});
+	};
+
+	object.updateTemp = function(){
+		$temp.html(temp);
+	};
+
+	object.updateDecrypt = function(){
+		$decrypted.html(decrypted);
 	};
 
 	object.getDecrypted = function(){
@@ -74,6 +112,3 @@ var myo = function(){
 
 	return object;
 };
-
-var myMyo = myo();
-myMyo.init();
