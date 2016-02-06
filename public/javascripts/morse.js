@@ -28,9 +28,9 @@ var map = {
 	y: "-..-",
 	y: "-.--",
 	z: "--..",
-	space: "....."
+	" ": ".....",
 }
-
+var temp = ""; 
 Myo.on('connected', function(data){
 	Myo.setLockingPolicy("none");
 })
@@ -42,17 +42,44 @@ Myo.on('pose', function(pose){
 
 //Opposite of above. We also revert the main img to the unlocked state
 Myo.on('fingers_spread', function(){
-	console.log("fingers off");
+	temp = temp + "-";
+	console.log(temp);
 });
 
 
 //Whenever a myo locks we'll switch the main image to a lock image
 Myo.on('fist', function(){
-	console.log("fist_off");
+	temp = temp + ".";
+	console.log(temp);
 });
 
 //Whenever a myo unlocks we'll switch the main image to a unlock image
+var decrypted_message = '';
 Myo.on('wave_in', function(){
 	console.log("wave");
+	//temp = temp.concat("s");
+	/*for(i = 0; i < map.length; i++)
+	{
+		if(map[i] == temp)
+		{
+			decrypted_message = decrypted_message.concat(map[i] + " ");
+			temp = '';
+		}
+	}*/
+
+	for (key in map)
+	{
+		if(map[key] == temp)
+		{
+			decrypted_message = decrypted_message + key;
+		}
+	}
+	temp = '';
+
+	console.log(decrypted_message);
+
+});
+Myo.on('wave_out', function(){
+	console.log("wave_out");
 });
 
