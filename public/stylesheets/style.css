@@ -1,6 +1,6 @@
 body {
 	color: #fff;
-	background  : #10161d url('../images/dot_grid.png');
+	background  : #121414 url('../images/dot_grid.png');
 	font-family: "Montserrat", sans-serif;
 	font-size: 14px;
 }
@@ -13,7 +13,7 @@ a {
 #more {
 	font-size: 10em;
 }
-
+	
 #options {
 	position: absolute;
 	top: 0;

@@ -38,6 +38,9 @@ var Morse = function(tempCont, decryptedCont, poseCont){
 	};
 
 	object.init = function(){
+		Myo.on('connected', function(){
+			console.log('connected');
+		});
 		Myo.connect('com.hackfsu.morse');
 		Myo.on('connected', function(data){
 			Myo.setLockingPolicy("none");
@@ -61,6 +64,14 @@ var Morse = function(tempCont, decryptedCont, poseCont){
 		});
 		Myo.on('wave_out', function(){
 			console.log("wave_out");
+		});
+
+		Myo.on('rest', function(){
+			$pose.attr('src', 'images/unknown.png');
+		});
+
+		Myo.on('battery_level', function(val){
+			console.log('Much power', val);
 		});
 
 		Myo.on('pose', function(pose){

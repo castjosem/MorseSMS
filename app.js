@@ -1,4 +1,3 @@
-var myo = require('myo');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
