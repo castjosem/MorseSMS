@@ -1,85 +1,79 @@
-Myo.connect('com.hackfsu.morse');
+var myo = function(){
+	var object = {};
+	var temp = "";
+	var decrypted = "";
+	var map = {
+		a: ".-", 
+		b: "-...",
+		c: "-.-.",
+		d: "-..",
+		e: ".",
+		f: "..-.",
+		g: "--.",
+		h: "....",
+		i: "..",
+		j: ".---",
+		k: "-.-",
+		l: ".-..",
+		m: "--",
+		n: "-.",
+		o: "---",
+		p: ".--.",
+		q: "--.-",
+		r: ".-.",
+		s: "...",
+		t: "-",
+		u: ".-.",
+		v: "...-",
+		w: ".--",
+		x: "-..-",
+		y: "-..-",
+		y: "-.--",
+		z: "--..",
+		" ": ".....",
+	};
 
-var map = {
-	a: ".-",
-	b: "-...",
-	c: "-.-.",
-	d: "-..",
-	e: ".",
-	f: "..-.",
-	g: "--.",
-	h: "....",
-	i: "..",
-	j: ".---",
-	k: "-.-",
-	l: ".-..",
-	m: "--",
-	n: "-.",
-	o: "---",
-	p: ".--.",
-	q: "--.-",
-	r: ".-.",
-	s: "...",
-	t: "-",
-	u: ".-.",
-	v: "...-",
-	w: ".--",
-	x: "-..-",
-	y: "-..-",
-	y: "-.--",
-	z: "--..",
-	" ": ".....",
-}
-var temp = ""; 
-Myo.on('connected', function(data){
-	Myo.setLockingPolicy("none");
-})
+	object.init = function(){
+		Myo.connect('com.hackfsu.morse');
+		Myo.on('connected', function(data){
+			Myo.setLockingPolicy("none");
+		});
+		Myo.on('fingers_spread', function(){
+			temp = temp + "-";
+			console.log(temp);
+		});
+		Myo.on('fist', function(){
+			temp = temp + ".";
+			console.log(temp);
+		});
+		Myo.on('wave_in', function(){
+			console.log("wave");
+			for (var key in map){
+				if(map[key] == temp)
+					decrypted = decrypted + key;				
+			}
+			temp = "";
+			console.log(decrypted);
+		});
+		Myo.on('wave_out', function(){
+			console.log("wave_out");
+		});
+	};
 
-/*//Whenever we get a pose event, we'll update the image sources with the active version of the image
-Myo.on('pose', function(pose){
-	console.log("pose");
-})*/
+	object.getDecrypted = function(){
+		return decrypted;
+	};
 
-//Opposite of above. We also revert the main img to the unlocked state
-Myo.on('fingers_spread', function(){
-	temp = temp + "-";
-	console.log(temp);
-});
+	object.getTemp = function(){
+		return temp;
+	};
 
+	object.getSuggestion = function(){
+		var baseUrl = "http://api.bing.com/osjson.aspx?JsonType=callback&query=" + temp;
+	};
 
-//Whenever a myo locks we'll switch the main image to a lock image
-Myo.on('fist', function(){
-	temp = temp + ".";
-	console.log(temp);
-});
+	return object;
+};
 
-//Whenever a myo unlocks we'll switch the main image to a unlock image
-var decrypted_message = '';
-Myo.on('wave_in', function(){
-	console.log("wave");
-	//temp = temp.concat("s");
-	/*for(i = 0; i < map.length; i++)
-	{
-		if(map[i] == temp)
-		{
-			decrypted_message = decrypted_message.concat(map[i] + " ");
-			temp = '';
-		}
-	}*/
-
-	for (key in map)
-	{
-		if(map[key] == temp)
-		{
-			decrypted_message = decrypted_message + key;
-		}
-	}
-	temp = '';
-
-	console.log(decrypted_message);
-
-});
-Myo.on('wave_out', function(){
-	console.log("wave_out");
-});
-
+var myMyo = myo();
+myMyo.init();
