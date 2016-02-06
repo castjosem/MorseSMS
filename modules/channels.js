@@ -9,20 +9,23 @@ module.exports = function(io){
 
 	function newChannel(){
 		var channel = {
-			id: uuid.v4(),
-			
+			id: uuid.v4(),			
 			word: ""
 		};
 		return channel;
 	};
 
-	console.log("TEST");
-
+	function returnSuggestion(error, response, body){
+		var resps = JSON.parse(body)[1];		
+		var filtered = _.filter(resps, function (resp) {
+			return resp.indexOf(' ') == -1;
+		});
+		io.emit('suggestions', filtered);
+	}
 
 	io.on('connection', function(client){		
 		client.on('addLetter', function(word){
-			result = searches.suggestions(word);
-			console.log(result);
+			searches.suggestions(word, returnSuggestion);
 		});
 	});
 
