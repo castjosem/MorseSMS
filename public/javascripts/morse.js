@@ -50,7 +50,6 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket_io){
 		Myo.on('fingers_spread', function(){
 			temp = temp + "-";
 			object.updateTemp();
-			Myo.vibrate('short');
 		});
 		Myo.on('fist', function(){
 			temp = temp + ".";
@@ -63,11 +62,9 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket_io){
 					if(map[key] == "....."){
 						final_message.push(decrypted);
 						decrypted = '';
-						Myo.vibrate('long');
 					}
 					else {
 						decrypted = decrypted + key;
-						Myo.vibrate('medium');
 					} 
 				}
 			}
