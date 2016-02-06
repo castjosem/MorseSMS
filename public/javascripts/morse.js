@@ -6,6 +6,7 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket){
 	var object = {};
 	var temp = "";
 	var decrypted = "";
+	var final_message []; 
 	var map = {
 		a: ".-", 
 		b: "-...",
@@ -57,7 +58,17 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket){
 			console.log("wave");
 			for (var key in map){
 				if(map[key] == temp)
-					decrypted = decrypted + key;				
+				{
+					if(map[key] == ".....")
+					{
+						final_message.push(decrypted);
+						decrypted = ''; 
+					}
+					else 
+					{
+						decrypted = decrypted + key;
+					} 
+				}
 			}
 			temp = "";
 			object.updateTemp();
