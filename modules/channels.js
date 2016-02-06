@@ -3,14 +3,14 @@ module.exports = function(io){
 		uuid 		= require('node-uuid'),
 		_ 			= require('lodash')
 		app 		= express(),
-		searches	= require('searches');
+		searches	= require('./searches');
 
 	var channels = [];
 
 	function newChannel(){
 		var channel = {
 			id: uuid.v4(),
-			text = [],
+			
 			word: ""
 		};
 		return channel;
