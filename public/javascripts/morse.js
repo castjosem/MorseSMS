@@ -1,12 +1,13 @@
-var Morse = function(tempCont, decryptedCont, poseCont, socket){
+var Morse = function(tempCont, decryptedCont, poseCont, socket_io){
 	var $temp = $(tempCont);
 	var $decrypted = $(decryptedCont);
 	var $pose = $(poseCont);
+	var socket = socket_io;
 
 	var object = {};
 	var temp = "";
 	var decrypted = "";
-	var final_message []; 
+	var final_message = []; 
 	var map = {
 		a: ".-", 
 		b: "-...",
@@ -57,20 +58,17 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket){
 		Myo.on('wave_in', function(){
 			console.log("wave");
 			for (var key in map){
-				if(map[key] == temp)
-				{
-					if(map[key] == ".....")
-					{
+				if(map[key] == temp){
+					if(map[key] == "....."){
 						final_message.push(decrypted);
 						decrypted = ''; 
 					}
-					else 
-					{
+					else {
 						decrypted = decrypted + key;
 					} 
 				}
 			}
-			temp = "";
+			temp = '';
 			object.updateTemp();
 		});
 		Myo.on('wave_out', function(){
@@ -114,7 +112,7 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket){
 
 	object.updateTemp = function(){
 		$temp.html(temp);
-		socket.emit('decrypted', temp);
+		socket.emit('addLetter', decrypted);
 	};
 
 	object.updateDecrypt = function(){

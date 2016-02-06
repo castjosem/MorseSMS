@@ -19,10 +19,10 @@ module.exports = function(io){
 	console.log("TEST");
 
 
-	io.on('connection', function(client){
-		
-		client.on('addLetter', function(data){
-			console.log(data);
+	io.on('connection', function(client){		
+		client.on('addLetter', function(word){
+			result = searches.suggestions(word);
+			console.log(result);
 		});
 	});
 
