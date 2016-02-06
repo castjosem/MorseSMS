@@ -15,7 +15,7 @@ module.exports = function(io){
 		return channel;
 	};
 
-	function returnSuggestion(error, response, body){
+	function callbackSuggestion(error, response, body){
 		var resps = JSON.parse(body)[1];		
 		var filtered = _.filter(resps, function (resp) {
 			return resp.indexOf(' ') == -1;
@@ -25,9 +25,11 @@ module.exports = function(io){
 
 	io.on('connection', function(client){		
 		client.on('addLetter', function(word){
-			searches.suggestions(word, returnSuggestion);
+			searches.suggestions(word, callbackSuggestion);
 		});
 	});
+
+	
 
 	return app;
 };

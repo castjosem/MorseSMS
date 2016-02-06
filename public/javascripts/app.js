@@ -1,13 +1,8 @@
 (function(){
 	console.log("init");
 	var socket = io();
-	var morse = Morse('#more', '#decrypted', '#pose', socket);
+	var morse = Morse('#morse', '#suggestions', '#decrypted', '#pose', socket);
 	morse.init();
-
-
-	socket.on('suggestions', function(arr){
-		console.log(arr);
-	});
 
 })();
 

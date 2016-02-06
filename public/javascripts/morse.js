@@ -1,7 +1,8 @@
-var Morse = function(tempCont, decryptedCont, poseCont, socket_io){
+var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_io){
 	var $temp = $(tempCont);
 	var $decrypted = $(decryptedCont);
 	var $pose = $(poseCont);
+	var $suggestionsCont = $(suggestionsCont);
 	var socket = socket_io;
 
 	var object = {};
@@ -48,11 +49,11 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket_io){
 			Myo.setLockingPolicy("none");
 		});
 		Myo.on('fingers_spread', function(){
-			temp = temp + "-";
+			object.appendTemp("-");
 			object.updateTemp();
 		});
-		Myo.on('fist', function(){
-			temp = temp + ".";
+		Myo.on('fist', function(){			
+			object.appendTemp(".");
 			object.updateTemp();
 		});
 		Myo.on('wave_in', function(){
@@ -60,15 +61,15 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket_io){
 			for (var key in map){
 				if(map[key] == temp){
 					if(map[key] == "....."){
-						final_message.push(decrypted);
-						decrypted = '';
+						object.addWord(decrypted);
+						object.clearDecrypted();
 					}
 					else {
-						decrypted = decrypted + key;
+						object.appendDecrypted(key);						
 					} 
 				}
 			}
-			temp = '';
+			object.clearTemp();
 			object.updateTemp();
 		});
 		Myo.on('wave_out', function(){
@@ -119,6 +120,22 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket_io){
 		$decrypted.html(decrypted);
 	};
 
+	object.appendTemp = function (symbol) {
+		temp = temp + symbol;
+	}
+
+	object.appendDecrypted = function(letter){
+		decrypted = decrypted + letter;
+	};
+
+	object.clearDecrypted = function() {
+		decrypted = "";
+	};
+
+	object.clearTemp = function() {
+		temp = "";
+	};
+
 	object.getDecrypted = function(){
 		return decrypted;
 	};
@@ -127,9 +144,19 @@ var Morse = function(tempCont, decryptedCont, poseCont, socket_io){
 		return temp;
 	};
 
-	object.getSuggestion = function(){
-		var baseUrl = "http://api.bing.com/osjson.aspx?JsonType=callback&query=" + temp;
+	object.addWord = function(word){
+		final_message.push(word);
+		object.clearTemp();
+		object.clearDecrypted();
 	};
+
+
+	object.getSuggestions = function(){
+		socket.on('suggestions', function(arr){
+			console.log(arr);
+		});
+	};
+	
 
 	return object;
 };
