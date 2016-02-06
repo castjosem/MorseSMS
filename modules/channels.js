@@ -2,14 +2,15 @@ module.exports = function(io){
 	var express 	= require('express'),
 		uuid 		= require('node-uuid'),
 		_ 			= require('lodash')
-		app 		= express();
+		app 		= express(),
+		searches	= require('searches');
 
 	var channels = [];
 
 	function newChannel(){
 		var channel = {
 			id: uuid.v4(),
-			decrypyed: "",
+			text = [],
 			word: ""
 		};
 		return channel;
@@ -19,9 +20,8 @@ module.exports = function(io){
 
 
 	io.on('connection', function(client){
-		console.log( "A user connected" );
 		
-		client.on('decrypted', function(data){
+		client.on('addLetter', function(data){
 			console.log(data);
 		});
 	});
