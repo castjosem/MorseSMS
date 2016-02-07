@@ -4,6 +4,7 @@ module.exports = function(io){
 		_ 			= require('lodash')
 		app 		= express(),
 		searches	= require('./searches');
+		texter		= require('./texter');
 
 	var channels = [];
 
@@ -32,6 +33,12 @@ module.exports = function(io){
 		client.on('addLetter', function(word){
 			searches.suggestions(word, callbackSuggestion);
 		});
+	});
+
+	io.on('connection', function(client){
+		client.on('texter', function(message){
+			console.log("LOOK HERE " + message);
+			texter.texter(message);
 	});
 
 	

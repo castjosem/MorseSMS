@@ -1,6 +1,6 @@
 var express = require('express');
 var crypter = require('./../modules/crypter');
-var mailer = require('./../modules/mailer');
+var mailer = require('./../modules/texter');
 var router = express.Router();
 
 /* GET home page. */
