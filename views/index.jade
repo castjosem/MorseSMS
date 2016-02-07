@@ -1,11 +1,76 @@
 extends layout
 
 block content
-
-	ul#suggestions
-		
+	div.suggestions-wrapper
+		span.h3.suggestion-title Suggested words
+		ul#suggestions
+			li Start typing
 
 	section.main.uk-height-1-1
 			div.uk-vertical-align.uk-text-center.uk-height-1-1
 				div.uk-vertical-align-middle
 					span#morse
+
+			div.decrypt-wrapper
+				section.uk-container-center.uk-width-medium-1-2
+					p 
+						span#decrypted
+
+	div.hints-wrapper
+		ul#hints
+			li.hint a	
+				span.separator .-
+			li.hint b	
+				span.separator -...
+			li.hint c	
+				span.separator -.-.
+			li.hint d	
+				span.separator -..
+			li.hint e	
+				span.separator .
+			li.hint f	
+				span.separator ..-.
+			li.hint g	
+				span.separator --.
+			li.hint h	
+				span.separator ....
+			li.hint i	
+				span.separator ..
+			li.hint j	
+				span.separator .---
+			li.hint k	
+				span.separator -.-
+			li.hint l	
+				span.separator .-..
+			li.hint m	
+				span.separator --
+			li.hint n	
+				span.separator -.
+			li.hint o	
+				span.separator ---
+			li.hint p	
+				span.separator .--.
+			li.hint q	
+				span.separator --.-
+			li.hint r	
+				span.separator .-.
+			li.hint s	
+				span.separator ...
+			li.hint t	
+				span.separator -
+			li.hint u	
+				span.separator .-.
+			li.hint v	
+				span.separator ...-
+			li.hint w	
+				span.separator .--
+			li.hint x	
+				span.separator -..-
+			li.hint y	
+				span.separator -..-
+			li.hint y	
+				span.separator -.--
+			li.hint z	
+				span.separator --..
+			li.hint ' '	
+				span.separator .....
