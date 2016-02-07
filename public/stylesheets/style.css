@@ -75,3 +75,16 @@ a {
 .separator {
 	padding-left: 2em;
 }
+
+#orientation {
+	position: absolute;
+	bottom: 0.5em;
+	left: 0.5em;
+	font-size: 0.8em;
+}
+
+.title-wrapper {
+	position: absolute;
+    top: 0;
+    width: 100%;
+}

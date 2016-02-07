@@ -9,16 +9,14 @@ module.exports = function(io){
 	var channels = [];
 
 	function callbackSuggestion(error, response, body){
-		var filtered = [];
-		if(typeof body !== undefined){			
-			var resps = JSON.parse(body)[1];
-			if (typeof resps !== undefined && resps.length > 0){
-				filtered = _.filter(resps, function (resp) {
-					return resp.indexOf(' ') == -1;
-				});
-			}
-			io.emit('suggestions', filtered);
+		var filtered = [];		
+		var resps = JSON.parse(body)[1];
+		if (typeof resps !== undefined && resps.length > 0){
+			filtered = _.filter(resps, function (resp) {
+				return resp.indexOf(' ') == -1;
+			});
 		}
+		io.emit('suggestions', filtered);	
 	}
 
 	io.on('connection', function(client){		

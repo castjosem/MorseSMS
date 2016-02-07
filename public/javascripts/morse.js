@@ -10,17 +10,6 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 	var bucket_size = 0.04;
 	var bucket_current = 0;
 
-	/*
-	var movements = {
-		dot: "fist",
-		dash: "fingers_spread",
-		letter: "wave_in",
-		send: "wave_out",
-		add_sugg: "double_tap",
-		sugg: "switch_word"
-	};
-	*/
-
 	var movements = {
 		dot: "wave_in",
 		dash: "wave_out",
@@ -130,8 +119,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 		Myo.on(movements.letter, function(){		
 			for (var key in map){
 				if(map[key] == temp){
-					if(map[key] == "....."){
-						responsiveVoice.speak(decrypted, "US English Female", {pitch: 2});
+					if(map[key] == "....."){						
 						object.addWord(decrypted);						
 						object.clearDecrypted();
 					}
@@ -194,7 +182,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 
 	object.updateTemp = function(){
 		$temp.html(temp);
-		socket.emit('addLetter', final_message.join(' '));
+		socket.emit('addLetter', decrypted);
 	};
 
 	object.appendTemp = function (symbol) {
@@ -227,6 +215,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 		object.clearTemp();
 		object.clearDecrypted();
 		object.updateDecrypt();
+		responsiveVoice.speak(final_message.join(' '), "US English Female", {pitch: 2});
 	};
 
 	object.updateDecrypt = function(){
