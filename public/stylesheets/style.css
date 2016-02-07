@@ -87,4 +87,11 @@ a {
 	position: absolute;
     top: 0;
     width: 100%;
+    text-align: center;
+    padding-top: 1em;
+}
+
+#title {
+	font-family: 'Montserrat', sans-serif;
+	color: #fff;
 }
