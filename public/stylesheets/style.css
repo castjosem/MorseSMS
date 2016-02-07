@@ -40,8 +40,8 @@ a {
 	margin-bottom: 0.6em;
 }
 
-.suggestion:focus {
-	color: #337ab7;
+.suggestion-active {
+	color: #337ab7 !important;
 }
 
 .suggestions-wrapper {
@@ -72,4 +72,24 @@ a {
 
 .separator {
 	padding-left: 2em;
+}
+
+#orientation {
+	position: absolute;
+	bottom: 0.5em;
+	left: 0.5em;
+	font-size: 0.8em;
+}
+
+.title-wrapper {
+	position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    padding-top: 1em;
+}
+
+#title {
+	font-family: 'Montserrat', sans-serif;
+	color: #fff;
 }

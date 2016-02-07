@@ -7,17 +7,28 @@ block content
 			li Start typing
 
 	section.main.uk-height-1-1
-			div.uk-vertical-align.uk-text-center.uk-height-1-1
-				div.uk-vertical-align-middle
-					span#morse
+		div.title-wrapper
+			section.uk-container-center.uk-width-medium-1-2
+				h1
+					span#title - MorseSMS -
 
-			div.decrypt-wrapper
-				section.uk-container-center.uk-width-medium-1-2
-					p 
-						span#decrypted
+		div.uk-vertical-align.uk-text-center.uk-height-1-1
+			div.uk-vertical-align-middle
+				span#morse
+
+		div.decrypt-wrapper
+			section.uk-container-center.uk-width-medium-1-2
+				p 
+					span#decrypted
+
+	section#orientation
+		div#x
+		div#y
+		div#z
+		div#w
 
 	div.hints-wrapper
-		ul#hints
+		ul.hints
 			li.hint a	
 				span.separator .-
 			li.hint b	
@@ -45,7 +56,8 @@ block content
 			li.hint m	
 				span.separator --
 			li.hint n	
-				span.separator -.
+				span.separator -.			
+		ul.hints
 			li.hint o	
 				span.separator ---
 			li.hint p	
@@ -65,8 +77,6 @@ block content
 			li.hint w	
 				span.separator .--
 			li.hint x	
-				span.separator -..-
-			li.hint y	
 				span.separator -..-
 			li.hint y	
 				span.separator -.--
