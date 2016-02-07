@@ -120,7 +120,6 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 			object.appendTemp(".");
 			object.updateTemp();
 		});
-<<<<<<< HEAD
 
 		Myo.on(movements.add_sugg, function(){
 			var word = $suggestionsCont.find('.suggestion').eq(bucket_current).text();
@@ -128,40 +127,26 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 			object.addSugg(word);
 		});
 
-		Myo.on(movements.letter, function(){
-			if(decrypted.length > 0){				
-				responsiveVoice.speak(decrypted, "US English Female", {pitch: 2});
-				for (var key in map){
-					if(map[key] == temp){
-						if(map[key] == "....."){
-							object.addWord(decrypted);						
-							object.clearDecrypted();
-						}
-						else {
-							object.appendDecrypted(key);						
-						} 
-=======
-		Myo.on('wave_in', function(){
-			console.log("wave");
+		Myo.on(movements.letter, function(){		
 			for (var key in map){
 				if(map[key] == temp){
-					if(map[key] == "......"){
-						object.addWord(decrypted);
-					}
-					else if(map[key] == "....."){
+					if(map[key] == "....."){
+						responsiveVoice.speak(decrypted, "US English Female", {pitch: 2});
 						object.addWord(decrypted);						
 						object.clearDecrypted();
->>>>>>> origin/master
 					}
+					else {
+						object.appendDecrypted(key);						
+					} 
 				}
-				object.clearTemp();
-				object.updateTemp();
 			}
+			object.clearTemp();
+			object.updateTemp();
+		
 		});
 
 		Myo.on(movements.send, function(){
-			console.log("wave_out");
-			socket.emit('texter', final_message.toString()); 
+			socket.emit('texter', final_message.join(' ')); 
 		});
 
 
@@ -209,7 +194,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 
 	object.updateTemp = function(){
 		$temp.html(temp);
-		socket.emit('addLetter', final_message.toString());
+		socket.emit('addLetter', final_message.join(' '));
 	};
 
 	object.appendTemp = function (symbol) {
