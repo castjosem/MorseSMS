@@ -14,8 +14,10 @@ a {
 	font-size: 10em;
 }
 
-#hints {
+.hints {
 	list-style: none;
+	display: inline-block;
+	margin-left: 1.5em;
 }
 
 .hints-wrapper {

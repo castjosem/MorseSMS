@@ -5,6 +5,20 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 	var $suggestionsCont = $(suggestionsCont);
 	var socket = socket_io;
 
+	var bucket_initial = 0.0;
+	var bucket_diff = 0.25;
+	var bucket_size = 0.04;
+	var bucket_current = 0;
+
+	var movements = {
+		dot: "wave_in",
+		dash: "wave_out",
+		letter: "fist",
+		send: "fingers_spread",
+		add_sugg: "double_tap",
+		sugg: "switch_word"
+	};
+
 	var object = {};
 	var temp = "";
 	var decrypted = "";
