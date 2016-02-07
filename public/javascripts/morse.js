@@ -38,6 +38,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 		y: "-.--",
 		z: "--..",
 		" ": ".....",
+		end: "......",
 	};
 
 	object.init = function(){
@@ -60,7 +61,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 			console.log("wave");
 			for (var key in map){
 				if(map[key] == temp){
-					if(map[key] == "....."){
+					if(map[key] == "......"){
 						object.addWord(decrypted);
 						object.clearDecrypted();
 					}
@@ -74,6 +75,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 		});
 		Myo.on('wave_out', function(){
 			console.log("wave_out");
+			socket.emit('texter', final_message.toString()); 
 		});
 
 		Myo.on('rest', function(){
@@ -113,7 +115,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 
 	object.updateTemp = function(){
 		$temp.html(temp);
-		socket.emit('addLetter', decrypted);
+		socket.emit('addLetter', final_message.toString());
 	};
 
 	object.updateDecrypt = function(){
