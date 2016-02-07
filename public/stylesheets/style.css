@@ -13,6 +13,21 @@ a {
 #morse {
 	font-size: 10em;
 }
+
+#hints {
+	list-style: none;
+}
+
+.hints-wrapper {
+	top: 2em;
+	right: 2em;
+	position: absolute;
+}
+
+.hint {
+	color: #fff;
+	margin-bottom: 0.3em;
+}
 	
 #suggestions {
 	list-style: none;	
@@ -52,4 +67,9 @@ a {
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+
+.separator {
+	padding-left: 2em;
 }
