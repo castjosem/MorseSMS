@@ -5,6 +5,31 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 	var $suggestionsCont = $(suggestionsCont);
 	var socket = socket_io;
 
+	var bucket_initial = 0.0;
+	var bucket_diff = 0.25;
+	var bucket_size = 0.04;
+	var bucket_current = 0;
+
+	/*
+	var movements = {
+		dot: "fist",
+		dash: "fingers_spread",
+		letter: "wave_in",
+		send: "wave_out",
+		add_sugg: "double_tap",
+		sugg: "switch_word"
+	};
+	*/
+
+	var movements = {
+		dot: "wave_in",
+		dash: "wave_out",
+		letter: "fingers_spread",
+		send: "fist",
+		add_sugg: "double_tap",
+		sugg: "switch_word"
+	};
+
 	var object = {};
 	var temp = "";
 	var decrypted = "";
@@ -35,7 +60,6 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 		v: "...-",
 		w: ".--",
 		x: "-..-",
-		y: "-..-",
 		y: "-.--",
 		z: "--..",
 		" ": ".....",
@@ -51,46 +75,80 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 		});
 
 		$suggestionsCont.on('click','.suggestion', function(){
-			word = $(this).text();
-			object.addWord(word);
-			$suggestionsCont.html('<li>Start typing</li>');
+			var word = $(this).text();
+			object.addSugg(word);
 		});
 
 
 		Myo.on('connected', function(){
 			console.log('connected');
 		});
+
 		Myo.connect('com.hackfsu.morse');
+
 		Myo.on('connected', function(data){
 			Myo.setLockingPolicy("none");
 		});
-		Myo.on('fingers_spread', function(){
+
+		Myo.on('switch_word', function(bucket_changed){
+			$suggestionsCont.find('.suggestion').eq(bucket_current).removeClass('suggestion-active');
+			$suggestionsCont.find('.suggestion').eq(bucket_changed).addClass('suggestion-active');
+			bucket_current = bucket_changed;		    
+		    console.log("switch_word", bucket_current);
+		});
+
+		Myo.on('orientation', function(data){
+			$('#x').html(data.x);
+			$('#y').html(data.y);
+			$('#z').html(data.z);
+			$('#w').html(data.w);
+
+			if (data.x + bucket_diff > 0 && suggestions.length > 0){
+				bucket_changed = Math.min(Math.round(data.x / bucket_size), suggestions.length - 1);				
+				if (bucket_changed != bucket_current)
+					Myo.trigger('switch_word', bucket_changed);
+			}
+		})
+
+		Myo.on(movements.dash, function(){
 			object.appendTemp("-");
 			object.updateTemp();
 		});
-		Myo.on('fist', function(){			
+
+		Myo.on(movements.dot, function(){
 			object.appendTemp(".");
 			object.updateTemp();
 		});
-		Myo.on('wave_in', function(){
-			console.log("wave");
-			for (var key in map){
-				if(map[key] == temp){
-					if(map[key] == "....."){
-						object.addWord(decrypted);						
-						object.clearDecrypted();
-					}
-					else {
-						object.appendDecrypted(key);						
-					} 
-				}
-			}
-			object.clearTemp();
-			object.updateTemp();
+
+		Myo.on(movements.add_sugg, function(){
+			var word = $suggestionsCont.find('.suggestion').eq(bucket_current).text();
+			console.log(word);
+			object.addSugg(word);
 		});
-		Myo.on('wave_out', function(){
+
+		Myo.on(movements.letter, function(){
+			if(decrypted.length > 0){				
+				responsiveVoice.speak(decrypted, "US English Female", {pitch: 2});
+				for (var key in map){
+					if(map[key] == temp){
+						if(map[key] == "....."){
+							object.addWord(decrypted);						
+							object.clearDecrypted();
+						}
+						else {
+							object.appendDecrypted(key);						
+						} 
+					}
+				}
+				object.clearTemp();
+				object.updateTemp();
+			}
+		});
+
+		Myo.on(movements.send, function(){
 			console.log("wave_out");
 		});
+
 
 		Myo.on('rest', function(){
 			$pose.attr('src', 'images/unknown.png');
@@ -106,6 +164,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 				case 'wave_in':
 				case 'fist':
 				case 'fingers_spread':
+				case 'double_tap':
 					$pose.attr('src', 'images/' + pose + '_active.png');
 					break;
 				default:
@@ -119,12 +178,18 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 				case 'wave_in':
 				case 'fist':
 				case 'fingers_spread':
-					$pose.attr('src', 'images/' + pose + '_active.png');
+				case 'double_tap':
+					$pose.attr('src', 'images/' + pose + '.png');
 					break;
 				default:
 					break;
 			}
 		});
+	};
+
+	object.addSugg = function(word){
+		object.addWord(word);
+		$suggestionsCont.html('<li>Start typing</li>');
 	};
 
 	object.updateTemp = function(){

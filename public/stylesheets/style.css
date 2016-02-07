@@ -14,8 +14,10 @@ a {
 	font-size: 10em;
 }
 
-#hints {
+.hints {
 	list-style: none;
+	display: inline-block;
+	margin-left: 1.5em;
 }
 
 .hints-wrapper {
@@ -40,8 +42,8 @@ a {
 	margin-bottom: 0.6em;
 }
 
-.suggestion:focus {
-	color: #337ab7;
+.suggestion-active {
+	color: #337ab7 !important;
 }
 
 .suggestions-wrapper {
