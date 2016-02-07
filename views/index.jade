@@ -1,11 +1,17 @@
 extends layout
 
 block content
-
-	ul#suggestions
-		
+	div.suggestions-wrapper
+		span.h3.suggestion-title Suggested words
+		ul#suggestions
+			li Start typing
 
 	section.main.uk-height-1-1
 			div.uk-vertical-align.uk-text-center.uk-height-1-1
 				div.uk-vertical-align-middle
 					span#morse
+
+			div.decrypt-wrapper
+				section.uk-container-center.uk-width-medium-1-2
+					p 
+						span#decrypted

@@ -9,6 +9,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 	var temp = "";
 	var decrypted = "";
 	var final_message = []; 
+	var suggestions = [];
 	var map = {
 		a: ".-", 
 		b: "-...",
@@ -41,6 +42,21 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 	};
 
 	object.init = function(){
+		socket.on('suggestions', function(arr){
+			suggestions = arr;
+			$suggestionsCont.html('');
+			for(var i=0 ; i<suggestions.length ; i++){
+				$suggestionsCont.append('<li><a class="suggestion" href="#">'+ suggestions[i] +'</a></li>');
+			}
+		});
+
+		$suggestionsCont.on('click','.suggestion', function(){
+			word = $(this).text();
+			object.addWord(word);
+			$suggestionsCont.html('<li>Start typing</li>');
+		});
+
+
 		Myo.on('connected', function(){
 			console.log('connected');
 		});
@@ -61,7 +77,7 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 			for (var key in map){
 				if(map[key] == temp){
 					if(map[key] == "....."){
-						object.addWord(decrypted);
+						object.addWord(decrypted);						
 						object.clearDecrypted();
 					}
 					else {
@@ -116,16 +132,13 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 		socket.emit('addLetter', decrypted);
 	};
 
-	object.updateDecrypt = function(){
-		$decrypted.html(decrypted);
-	};
-
 	object.appendTemp = function (symbol) {
 		temp = temp + symbol;
 	}
 
 	object.appendDecrypted = function(letter){
 		decrypted = decrypted + letter;
+		object.updateDecrypt();
 	};
 
 	object.clearDecrypted = function() {
@@ -148,15 +161,20 @@ var Morse = function(tempCont, suggestionsCont, decryptedCont, poseCont, socket_
 		final_message.push(word);
 		object.clearTemp();
 		object.clearDecrypted();
+		object.updateDecrypt();
 	};
 
+	object.updateDecrypt = function(){
+		$decrypted.html(final_message.join(' ') + ' ' + decrypted);
+	};
 
 	object.getSuggestions = function(){
-		socket.on('suggestions', function(arr){
-			console.log(arr);
-		});
+		return suggestions;
 	};
 	
+	object.test = function(){
+		console.log("EEEE");
+	};
 
 	return object;
 };

@@ -14,10 +14,29 @@ a {
 	font-size: 10em;
 }
 	
-#options {
+#suggestions {
+	list-style: none;	
+}
+
+.suggestion {
+	color: #fff;
+	text-decoration: none;
+	font-size: 1.5em;
+	margin-bottom: 0.6em;
+}
+
+.suggestion:focus {
+	color: #337ab7;
+}
+
+.suggestions-wrapper {
 	position: absolute;
-	top: 0;
-	left: 0;
+	top: 2em;
+	left: 2em;
+}
+
+#decrypt {
+	font-size: 1.5em;
 }
 
 
@@ -27,4 +46,10 @@ a {
 	width : 100px;
 	margin: 1em;
 	right: 0;
+}
+
+.decrypt-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
